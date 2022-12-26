@@ -1,0 +1,86 @@
+﻿@page "/contactdetails"
+@page "/contactdetails/{id:int}"
+
+@inject IContactService ContactService
+@inject NavigationManager NavigationManager
+
+@if (contact == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="contact" OnValidSubmit="Save">
+        <div class="card">
+            <h5 class="card-header">Contact Details</h5>
+            <div class="card-body">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>First Name</label>
+                            <InputText class="form-control" @bind-Value="@contact.FirstName"></InputText>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Last Name</label>
+                            <InputText class="form-control" @bind-Value="@contact.LastName"></InputText>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Phone</label>
+                            <InputText class="form-control" @bind-Value="@contact.Phone"></InputText>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Address</label>
+                            <InputText class="form-control" @bind-Value="@contact.Address"></InputText>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <input type="submit" class="btn btn-success" value="Save" />
+                            <input type="button" class="btn btn-secondary" value="Cancel" @onclick="NavigateHome"/>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+
+
+@code {
+    public Contact contact;
+
+    [Parameter]
+    public int id { get; set; }
+
+    // Sobreescribir uno de los metodos del ciclo de vida de los componentes
+    protected async override Task OnInitializedAsync()
+    {
+        if (id == 0)
+            contact = new Contact();
+        else
+            contact = await ContactService.GetContactById(id);
+    }
+
+    protected async Task Save()
+    {
+        await ContactService.SaveContact(contact);
+        NavigateHome();
+    }
+
+    private void NavigateHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
