@@ -7,9 +7,10 @@
 
 @Message
 
-<div class="my-4">
-    <a href="/contactdetails" class="btn btn-primary">New contact</a>
-</div>
+<RadzenButton 
+    Click=@(args => NavigationManager.NavigateTo("/contactdetails")) 
+    ButtonStyle="ButtonStyle.Info" 
+    Text="New contact" />
 
 @if (contacts == null)
 {
@@ -17,31 +18,33 @@
 }
 else
 {
-    <table class="table">
+    <RadzenGrid 
+        AllowFiltering="true" 
+        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+        FilterMode="FilterMode.Advanced"
+        AllowPaging="true"
+        PageSize="4"
+        AllowSorting="true"
+        Data="@contacts"
+        TItem="Contact">
 
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var contact in contacts)
-            {
-                <tr>
-                    <td>@contact.FullName</td>
-                    <td>@contact.Phone</td>
-                    <td>@contact.Address</td>
-                    <td><a href="/contactdetails/@contact.Id">Edit</a></td>
-                    <td><a href="/contactdelete/@contact.Id" class="link-danger">Delete</a></td>
-                </tr>
-            }
-        </tbody>
+        <Columns>
+            <RadzenGridColumn TItem="Contact" Property="FullName" Title="Name"/>
+            <RadzenGridColumn TItem="Contact" Property="Phone" Title="Phone"/>
+            <RadzenGridColumn TItem="Contact" Property="Address" Title="Address"/>
+            <RadzenGridColumn TItem="Contact" Title="Edit" Sortable="false" Filterable="false">
+                <Template Context="data">
+                    <RadzenLink Path="@($"/contactdetails/{data.Id}")" Text="Edit" />
+                </Template>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="Contact" Title="Delete" Sortable="false" Filterable="false">
+                <Template Context="data">
+                    <RadzenLink Path="@($"/contactdelete/{data.Id}")" Text="Delete" />
+                </Template>
+            </RadzenGridColumn>
+        </Columns>
 
-    </table>
+    </RadzenGrid>
 }
 
 

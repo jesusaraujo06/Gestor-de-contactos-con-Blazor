@@ -10,31 +10,33 @@
 }
 else
 {
-    <EditForm Model="contact" OnValidSubmit="Save">
+    <RadzenTemplateForm Data="@contact">
         <div class="card">
-            <h5 class="card-header">Contact Details</h5>
+            @*<h5 class="card-header">Contact Details</h5>*@
             <div class="card-body">
                 <div class="container">
+
+                    <RadzenFieldset Text="Contect Details">
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>First Name</label>
-                            <InputText class="form-control" @bind-Value="@contact.FirstName"></InputText>
+                            <RadzenTextBox class="form-control" @bind-Value="@contact.FirstName"></RadzenTextBox>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Last Name</label>
-                            <InputText class="form-control" @bind-Value="@contact.LastName"></InputText>
+                            <RadzenTextBox class="form-control" @bind-Value="@contact.LastName"></RadzenTextBox>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Phone</label>
-                            <InputText class="form-control" @bind-Value="@contact.Phone"></InputText>
+                            <RadzenTextBox class="form-control" @bind-Value="@contact.Phone"></RadzenTextBox>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Address</label>
-                            <InputText class="form-control" @bind-Value="@contact.Address"></InputText>
+                            <RadzenTextBox class="form-control" @bind-Value="@contact.Address"></RadzenTextBox>
                         </div>
                     </div>
 
@@ -43,17 +45,19 @@ else
                         <div class="col-md-4 mb-3">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <input type="submit" class="btn btn-success" value="Save" />
-                            <input type="button" class="btn btn-secondary" value="Cancel" @onclick="NavigateHome"/>
+                            <RadzenButton Text="Save" ButtonStyle="ButtonStyle.Primary" Click="@(args => Save())" />
+                                <RadzenButton Text="Cancel" ButtonStyle="ButtonStyle.Dark" Click="@(args => NavigateHome())" />
                         </div>
                         <div class="col-md-4 mb-3">
                         </div>
                     </div>
 
+                    </RadzenFieldset>
+
                 </div>
             </div>
         </div>
-    </EditForm>
+    </RadzenTemplateForm>
 }
 
 
